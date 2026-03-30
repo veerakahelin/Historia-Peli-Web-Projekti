@@ -1,0 +1,15 @@
+body {
+    background-color: #DBD1C2;
+    color: #554A38;
+}
+
+footer {
+    background-color: #A59B85;
+    color: #FFFFFF;
+}
+
+.navbar-valikot a {
+    background-color: #554A38;
+    color: #FFFFFF;
+    text-decoration: none;
+}
