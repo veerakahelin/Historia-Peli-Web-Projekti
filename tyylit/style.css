@@ -1,8 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Staatliches&display=swap');
 
 body {
-    background-color: #DBD1C2;
+    background-color: #DBD1C2 !important;
     color: #554A38;
+    font-family: "Staatliches";
 }
 
 footer {
@@ -16,3 +17,27 @@ footer {
     text-decoration: none;
 }
 
+.navbar-info .nav-link {
+    background-color: #554A38 !important;
+    color: #FFFFFF !important;
+}
+
+.pelit-dropdown a {
+    background-color: #554A38 !important;
+    color: #FFFFFF !important;
+}
+
+.nav-item a {
+    background-color: #554A38 !important;
+    color: #FFFFFF !important;
+}
+
+.historiapeli-logo {
+    color: #554A38 !important;
+    text-decoration: none;
+    font-family: "Staatliches";
+}
+
+.navbar-container {
+    background-color: #554A38 !important;  
+}
