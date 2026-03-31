@@ -1,44 +1,88 @@
 @import url('https://fonts.googleapis.com/css2?family=Staatliches&display=swap');
 
 body {
+    background-color: #DBD1C2;
+    font-family: "Staatliches", sans-serif;
     color: #554A38;
-    font-family: "Staatliches";
 }
 
-footer {
-    background-color: #A59B85;
-    color: #FFFFFF;
+/* NAVBAR */
+.custom-navbar {
+    padding: 20px 0;
 }
 
-.navbar-valikot a {
+.menu .nav-btn {
+  display: block;
+  width: 100%;
+  padding: 12px 0;
+  text-align: center;
+  border-radius: 10px;
+}
+
+/* Sama korkeus kaikille */
+.menu .nav-item {
+  display: flex;
+}
+
+/* Tasaa napit */
+.menu .flex-fill {
+  flex: 1;
+  margin: 0 10px;
+}
+
+.logo {
+    font-weight: bold;
+    color: #554A38;
+}
+
+/* Menu */
+.menu {
+    gap: 40px;
+}
+
+/* Linkit */
+.nav-btn {
     background-color: #554A38;
-    color: #FFFFFF;
-    text-decoration: none;
+    color: white !important;
+    padding: 8px 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
 }
 
-/*YLÄPALKKI INFO*/
-.navbar-info .nav-link {
-    background-color: #554A38 !important;
-    color: #FFFFFF !important;
+/* HERO */
+.hero h1 {
+    font-size: 32px;
+    font-weight: bold;
 }
 
-.pelit-dropdown a {
-    background-color: #554A38 !important;
-    color: #FFFFFF !important;
+.hero p {
+    margin-top: 10px;
 }
 
-/*YLÄPALKKI PELIT*/
-.nav-item a {
-    background-color: #554A38 !important;
-    color: #FFFFFF !important;
+/* Kuva */
+.hero-img {
+    width: 100%;
+    max-width: 100%;
+    border-radius: 20px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
 }
 
-.historiapeli-logo {
-    color: #554A38 !important;
-    text-decoration: none;
-    font-family: "Staatliches";
+/* FOOTER */
+.custom-footer {
+    margin-top: auto;
+    background-color: #A59B85;
+    color: white;
+    padding: 30px 0;
 }
 
-.navbar-container {
-    background-color: #554A38 !important;  
+.footer-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.divider {
+    width: 2px;
+    height: 30px;
+    background-color: white;
 }

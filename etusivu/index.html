@@ -1,67 +1,96 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Historiapeli</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../tyylit/style.css">
-     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
 </head>
 
-<body>
+<body class="d-flex flex-column min-vh-100">
 
-<nav class="navbar navbar-expand-lg bg-body-tertiary navbar-container">
-  <div class="container-fluid container-nav">
-    <a class="historiapeli-logo" href="#">Historiapeli</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+<main class="flex-grow-1">
+
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg custom-navbar">
+  <div class="container">
+
+    <!-- Logo -->
+    <a class="navbar-brand logo" href="#">HISTORIAPELI</a>
+
+    <!-- Mobile button -->
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav">
       <span class="navbar-toggler-icon"></span>
     </button>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#">Esittely</a>
+
+    <!-- Menu -->
+    <div class="collapse navbar-collapse justify-content-center" id="nav">
+      <ul class="navbar-nav menu w-100 d-flex">
+        <li class="nav-item flex-fill">
+          <a class="nav-link nav-btn w-100 text-center" href="#">INFO</a>
         </li>
-        <li class="nav-item navbar-info">
-          <a class="nav-link" href="#">Info</a>
+        <li class="nav-item flex-fill">
+          <a class="nav-link nav-btn w-100 text-center" href="#">ESITTELY</a>
         </li>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Pelit
+        <li class="nav-item flex-fill dropdown">
+          <a class="nav-link nav-btn w-100 text-center dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">PELIT
+            
           </a>
-          <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="#">Peli 1</a></li>
-            <li><a class="dropdown-item" href="#">Peli 2</a></li>
-            <li><a class="dropdown-item" href="#">Peli 3</a></li>
-          </ul>
-        </li>
-      </ul>
+
+    <ul class="dropdown-menu">
+      <li><a class="dropdown-item" href="#">PELI 1</a></li>
+      <li><a class="dropdown-item" href="#">PELI 2</a></li>
+      <li><a class="dropdown-item" href="#">PELI 3</a></li>
+    </ul>
+  </li>
+
+</ul>
     </div>
+
   </div>
 </nav>
-    
 
-<h1>historiapeli</h1>
+<!-- HERO SECTION -->
+<section class="container hero mt-5">
+  <div class="row align-items-center">
 
-<sction>
-      
-<article id="content">
-    <h2>Tervetuloa historiapeliin!</h2>
-    <p>Pelit löydät "pelit" valikosta.</p>
-</article>
+    <!-- Teksti -->
+    <div class="col-md-6">
+      <h1>TERVETULOA HISTORIAPELIIN!</h1>
+      <p>PELIT LÖYDÄT "PELIT" VALIKOSTA.</p>
+    </div>
 
-<button type="button" class="btn btn-light">Light</button>
+    <!-- Kuva -->
+    <div class="col-md-6 text-center">
+      <img src="../dokumentit/historia.jpg" class="hero-img" alt="historia">
+    </div>
 
-<img src="../dokumentit/historia.jpg" width="700"></img>
+  </div>
+</section>
 
+</main>
 
-<footer>
-    <p>Ota meihin yhteyttä:</p>
+<!-- FOOTER -->
+<footer class="custom-footer mt-5">
+  <div class="container footer-content">
+
+    <div>
+      OTA YHTEYTTÄ MEIHIN → 044746385
+    </div>
+
+    <div class="divider"></div>
+
+    <div>
+      SEURAA MEITÄ SOMESSA → HISTORIAPELI
+    </div>
+
+  </div>
 </footer>
 
-</sction>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
 </html>
-
