@@ -34,7 +34,6 @@ body {
     font-weight: bold;
     color: #554A38;
 }
-
 /* Menu */
 .menu {
     gap: 40px;
@@ -47,6 +46,11 @@ body {
     padding: 8px 20px;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+.nav-btn:hover {
+    background-color: #6b5e49;
+    transform: translateY(-2px);
+    transition: 0.2s;
 }
 
 /* HERO */
