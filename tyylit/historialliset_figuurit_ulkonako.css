@@ -1,0 +1,135 @@
+/* Käytin ChatGPT 5.4sta erikseen mainituissa kohdissa! */
+/* PS. Olen kuitenkin kirjoittanut kaiken koodin tänne itse */
+
+body {
+    background-color: #DBD1C2;
+    font-family: 'Times New Roman', Times, serif;
+}
+
+.grid-container {
+    max-width: 1080px;
+    margin: auto;
+}
+
+.cell {
+    border: 1px solid #000;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    font-weight: bold;
+    background-color: #A59B85;
+    cursor: pointer;
+    user-select: none;
+}
+
+.cell.selected {
+    background-color: #554A38;
+    color: #fff;
+}
+
+.cell.found {
+    background-color: #44FFBB;
+    color: #fff
+}
+
+.figure-item {
+    padding: 4px 8px;
+    border-radius: 5px;
+    margin: 2px;
+    display: inline-block;
+    background: #A59B85;
+}
+
+.hint-found {
+    text-decoration: line-through;
+}
+
+/* Osaakseen luotu ChatGPT:n avulla --> */
+.overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.65);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.overlay-box {
+    background: #DBD1C2;
+    color: black;
+    max-width: 600px;
+    width: 90%;
+    padding: 2rem;
+    border-radius: 12px;
+    text-align: center;
+    box-shadow: 0px 8px 30px rgba(0, 0, 0, 0.25)
+}
+
+#closeIntroBtn {
+    background-color: #A59B85;
+    color: #000;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+#closeIntroBtn:hover {
+    background-color: #554A38;
+    color: #fff;
+}
+
+.hidden {
+    display: none;
+}
+
+.victory-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.45);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+}
+
+.victory-overlay.hidden {
+    display: none;
+}
+
+.victory-box {
+    position: relative;
+    width: min(90%, 420px);
+    background: #A59B85;
+    border-radius: 14px;
+    padding: 24px 20px 18px;
+    text-align: center;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
+}
+
+.victory-box h2 {
+    margin: 0 0 10px;
+}
+
+.victory-box p {
+    margin: 0 0 14px;
+}
+
+.victory-time {
+    margin-top: 10px;
+    font-size: 1rem;
+}
+
+.victory-close {
+    position: absolute;
+    top: 8px;
+    right: 10px;
+    border: none;
+    background: transparent;
+    font-size: 1.8rem;
+    line-height: 1;
+    cursor: pointer;
+}
+
+/* <-- */
