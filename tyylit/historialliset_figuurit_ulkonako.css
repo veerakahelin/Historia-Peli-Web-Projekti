@@ -6,8 +6,8 @@ body {
     font-family: 'Times New Roman', Times, serif;
 }
 
-.grid-container {
-    max-width: 1080px;
+.container {
+    max-width: 1200px;
     margin: auto;
 }
 
@@ -42,11 +42,22 @@ body {
     background: #A59B85;
 }
 
-.hint-found {
-    text-decoration: line-through;
+.btn-secondary {
+    background-color: #554A38;
+}
+.btn-secondary:hover {
+    background-color: #332C22;
 }
 
 /* Osaakseen luotu ChatGPT:n avulla --> */
+#progress,
+#currentFigure {
+    min-height: 1.4rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 .overlay {
     position: fixed;
     inset: 0;
@@ -132,4 +143,90 @@ body {
     cursor: pointer;
 }
 
+.grid-locked {
+    pointer-events: none;
+}
+
+.top-corner-btn {
+    position: fixed;
+    top: 20px;
+    z-index: 900;
+    border: none;
+    border-radius: 10px;
+    padding: 10px 16px;
+    background-color: #554A38;
+    color: #fff;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
+}
+
+.top-corner-btn:hover {
+    background-color: #332c22;
+    cursor: pointer;
+}
+
+.hint-toggle-btn {
+    right: 20px;
+}
+
+.leave-game-btn {
+    left: 20px;
+}
+
+.hint-panel {
+    position: fixed;
+    top: 80px;
+    right: 20px;
+    width: min(90vw, 420px);
+    max-height: 70vh;
+    background: #DBD1C2;
+    border: 2px solid #554A38;
+    border-radius: 14px;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
+    overflow: hidden;
+    z-index: 950;
+}
+
+.hint-panel-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 16px;
+    background-color: #A59B85;
+    cursor: grab;
+    user-select: none;
+    touch-action: none;
+}
+
+.hint-panel-header h3 {
+    margin: 0;
+    font-size: 1.2rem;
+}
+
+.hint-panel-close {
+    border: none;
+    background: transparent;
+    font-size: 1.7rem;
+    line-height: 1;
+    cursor: pointer;
+    color: #000;
+}
+
+.hint-panel-body {
+    padding: 14px 16px;
+    max-height: calc(70vh - 60px);
+    overflow-y: auto;
+}
+
+.hint-item {
+    padding: 10px 12px;
+    margin-bottom: 10px;
+    border-radius: 10px;
+    background: #f3ede4;
+    border: 1px solid #b7aa96;
+    text-align: left;
+}
 /* <-- */
+
+.hint-found {
+    text-decoration: line-through;
+}

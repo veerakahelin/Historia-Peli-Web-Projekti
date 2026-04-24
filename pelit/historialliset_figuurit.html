@@ -8,25 +8,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Historialliset figuurit peli</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
-    <link href="../tyylit/historialliset_figuurit_ulkonako.css" rel="stylesheet">
+    <link href="./ulkonako.css" rel="stylesheet">
 </head>
 <body>
+
+<!-- ChatGPT:n kanssa luotu-->
+<button id="leaveGameBtn" class="top-corner-btn leave-game-btn" type="button">
+    Takaisin
+</button>
+
+<button id="openHintsBtn" class="top-corner-btn hint-toggle-btn" type="button">
+    Vihjeet
+</button> <!-- Tähän päättyy -->
 
 <div class="container py-4 text-center">
     <h2>Löydä historialliset figuurit</h2>
     <p>Löydä kaikki laatikossa olevat historialliset figuurit</p>
 
-    <div id="progress" class="mb-2 fw-bold"></div>
-    <div id="currentFigure" class="mb-3 fw-bold"></div>
+    <div id="progress" class="mb-1 fw-bold"></div>
+    <div id="currentFigure" class="mb-1 fw-bold"></div>
 
-    <div id="grid" class="container mb-4"></div>
+    <div id="grid" class="container mb-2"></div>
 
-    <div id="hintSection" class="hidden"> <!-- <-- ChatGPT muokkasi tätä-->
-        <h3>Vihjeet</h3>
-        <div id="hintList"></div>
-    </div>
-
-    <button class="btn btn-secondary mt-3" onclick="resetSelection()">Resetoi valinta</button>
+    <button class="btn btn-secondary mt-1" onclick="resetSelection()">Resetoi valinta</button>
 </div>
 
 <!-- Luotu ChatGPT:n kanssa. Pelin infon kirjoitin itse! -->
@@ -34,12 +38,12 @@
     <div class="overlay-box">
         <h2>Pelin ohjeet</h2>
         <p>
-            Löydä laatikosta 15 satunnaisesti valittua historiallista figuuria.
+            Löydä laatikosta 10 satunnaisesti valittua historiallista figuuria.
             Käytä vinkkejä päättelemään ketkä figuurit ovat kyseessä.
         </p>
         <p>
             Voit valita vain kirjaimia, jotka ovat kiinni toisissaan.
-            Voit käyttää löydettyjä kirjaimia useamman kerran.
+            Voit käyttää jokaista kirjainta vain kerran.
         </p>
 
         <button id="closeIntroBtn">Aloita peli</button>
@@ -48,13 +52,39 @@
 
  <div id="victoryOverlay" class="victory-overlay hidden" aria-hidden="true">
     <div class="victory-box">
-        <button id="closeVictoryBtn" class="victory-close" arial-label="Sulje">×</button>
+        <button id="closeVictoryBtn" class="victory-close" aria-label="Sulje">×</button>
         <h2>Löysit kaikki figuurit!</h2>
         <p>Hyvin tehty!</p>
         <div id="victoryTime" class="victory-time"></div>
     </div>
-</div> <!-- <-- -->
+</div>
 
-<script src="../script/historialliset_figuurit_funktio.js" ></script>
+<div id="hintSection" class="hint-panel hidden" aria-hidden="true">
+    <div id="hintPanelHeader" class="hint-panel-header">
+        <h3>Vihjeet</h3>
+        <button id="closeHintsBtn" class="hint-panel-close" type="button" aria-label="Sulje vihjeet">×</button>
+    </div>
+
+    <div id="hintList" class="hint-panel-body"></div>
+</div>
+
+<audio id="victorySound" preload="auto">
+    <source src="./audio/PeliVoitto.mp3" type="audio/mpeg">
+    Selain ei tue äänen toistoa.
+</audio>
+
+<audio id="clickSound" preload="auto">
+    <source src="./audio/KirjainPainettu.mp3" type="audio/mpeg">
+    Selain ei tue äänen toistoa.
+</audio>
+
+<audio id="foundSound" preload="auto">
+    <source src="./audio/HahmoLöydetty.mp3" type="audio/mpeg">
+    Selain ei tue äänen toistoa.
+</audio>
+
+<!-- Tähän päättyy -->
+
+<script src="./funktio.js" ></script>
 </body>
 </html>

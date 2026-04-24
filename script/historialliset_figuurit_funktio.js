@@ -4,7 +4,7 @@
 class TrieNode {
     constructor() {
         this.children = {};
-        this.isEnd=false;
+        this.isEnd = false;
     }
 }
 
@@ -22,25 +22,6 @@ class Trie {
             node = node.children[char];
         }
         node.isEnd = true;
-    }
-
-    search(figure) {
-        let node = this.root;
-        for (let char of figure) {
-            if (!node.children[char]) return false;
-            node = node.children[char];
-        }
-        return node.isEnd;
-    }
-    
-    //Luotu ChatGPT:n kanssa
-    startsWith(prefix) {
-        let node = this.root;
-        for (let char of prefix) {
-            if (!node.children[char]) return false;
-            node = node.children[char];
-        }
-        return true;
     }
 }
 
@@ -248,18 +229,20 @@ const figurePool = [
     }
 ];
 //ChatGPT:n lisäämä sekä muokkaama -->
-const ROUND_SIZE = 15;
+const ROUND_SIZE = 10;
 
 let roundEntries = [];
 let figures = [];
 let trie = new Trie();
 let foundFigures = new Set();
+let placedPaths = new Map();
+let lockedCells = new Set();
 let roundStartTime = 0;
 let roundCompleted = false;
 let timerInterval = null;
 let introClosed = false; //<--
 
-const rows = 6;
+const rows = 7;
 const cols = 21;
 let grid = []; //<-- ChatGPT:n muokkaama
 
@@ -300,6 +283,8 @@ function setUpRoundData() {
     figures.forEach(w => trie.insert(w));
 
     foundFigures = new Set();
+    placedPaths = new Map();
+    lockedCells = new Set();
 }
 
 function canUseCell(r, c, visited) {
@@ -320,11 +305,12 @@ function placeFigure(figure) {
         }
     }
 
-    function dfs(r, c, index, visited) {
+    function dfs(r, c, index, visited, path) {
         if (!canUseCell(r, c, visited)) return false;
 
         const key = `${r},${c}`;
         visited.add(key);
+        path.push([r, c]);
         grid[r][c] = figure[index];
 
         if (index === figure.length - 1) {
@@ -332,21 +318,21 @@ function placeFigure(figure) {
         }
 
         for (const [dr, dc] of shuffle(dirs)) {
-            const nr = r + dr;
-            const nc = c + dc;
-
-            if (dfs(nr, nc, index + 1, visited)) {
+            if (dfs(r + dr, c + dc, index + 1, visited, path)) {
                 return true;
             }
         }
 
         visited.delete(key);
+        path.pop();
         grid[r][c] = "";
         return false;
     }
 
     for (const [r, c] of shuffle(startCells)) {
-        if (dfs(r, c, 0, new Set())) {
+        const path = [];
+        if (dfs(r, c, 0, new Set(), path)) {
+            placedPaths.set(figure, [...path]);
             return true;
         }
     }
@@ -355,69 +341,69 @@ function placeFigure(figure) {
 } //<--
 
 //Luotu ChatGPT:n kanssa -->
-function figureExists(figure) {
-    function dfs(r, c, index, visited) {
+function collectFigureOccurrences() {
+    const counts = new Map(figures.map(figure => [figure, 0]));
+
+    function dfs(r, c, node, currentWord, visited) {
         if (
             r < 0 || r >= rows ||
-            c < 0 || c >= cols ||
-            visited.has(`${r},${c}`) ||
-            grid[r][c] !== figure[index]
+            c < 0 || c >= cols
         ) {
-            return false;
+            return;
         }
 
-        if (index === figure.length - 1) {
-            return true;
-        }
+        const key = `${r},${c}`;
+        if (visited.has(key)) return;
 
-        visited.add(`${r},${c}`);
+        const char = grid[r][c];
+        const nextNode = node.children[char];
+        if (!nextNode) return;
+
+        visited.add(key);
+        const nextWord = currentWord + char;
+
+        if (nextNode.isEnd && counts.has(nextWord)) {
+            counts.set(nextWord, counts.get(nextWord) + 1);
+        }
 
         for (const [dr, dc] of dirs) {
-            if (dfs(r + dr, c + dc, index + 1, visited)) {
-                visited.delete(`${r},${c}`);
-                return true;
-            }
+            dfs(r + dr, c + dc, nextNode, nextWord, visited)
         }
 
-        visited.delete(`${r},${c}`);
-        return false;
+        visited.delete(key);
     }
 
     for (let r = 0; r < rows; r++) {
         for (let c = 0; c < cols; c++) {
-            if (grid[r][c] === figure[0]) {
-                if (dfs(r, c, 0, new Set())) {
-                    return true;
-                }
-            }
+            dfs(r, c, trie.root, "", new Set());
         }
     }
 
-    return false;
+    return counts;
 }
 
-function allFiguresExist() {
-    return figures.every(figure => figureExists(figure));
-} //<--
+function hasExactlyOneOccurrencePerFigure() {
+    const counts = collectFigureOccurrences();
+    return figures.every(figure => counts.get(figure) === 1);
+}
 
-//Luotu ChatGPT:n kanssa -->
 function buildGrid() {
     const orderedFigures = [...figures].sort((a, b) => b.length - a.length);
 
     for (let boardAttempt = 0; boardAttempt < 2000; boardAttempt++) {
         grid = Array.from({ length: rows }, () => Array(cols).fill(""));
+        placedPaths = new Map();
 
         let success = true;
 
         for (const figure of orderedFigures) {
-            if(!placeFigure(figure)) {
+            if (!placeFigure(figure)) {
                 success = false;
                 break;
             }
         }
 
         if (!success) continue;
-        if(!allFiguresExist()) continue;
 
         for (let r = 0; r < rows; r++) {
             for (let c = 0; c < cols; c++) {
@@ -426,6 +412,8 @@ function buildGrid() {
                 }
             }
         }
+
+        if (!hasExactlyOneOccurrencePerFigure()) continue;
 
         return true;
     }
@@ -482,40 +470,86 @@ function isAdjacent(r, c) {
     return Math.abs(lr - r) <= 1 && Math.abs(lc - c) <= 1;
 }
 
-function handleClick(r, c, el) {
-    if (!isAdjacent(r, c)) return;
-    if (selected.some(([sr, sc]) => sr === r && sc === c)) return;
+//ChatGPT:n kanssa luotu -->
+function sameCoord(a, b) {
+    return a[0] === b[0] && a[1] === b[1];
+}
 
-    selected.push([r, c]);
-    currentFigure += grid[r][c];
-    el.classList.add("selected");
+function matchesPathPrefix(path, selection) {
+    if (!path || selection.length > path.length) return false;
 
-    document.getElementById("currentFigure").textContent = currentFigure;
-
-    //ChatGPT:n lisäämä pätkä
-    if (!trie.startsWith(currentFigure)) {
-        resetSelection();
-        return;
+    for (let i = 0; i < selection.length; i++) {
+        if (!sameCoord(path[i], selection[i])) {
+            return false;
+        }
     }
 
-    if (trie.search(currentFigure) && !foundFigures.has(currentFigure)) {
+    return true;
+}
+
+function isExactSelectedPath(figure) {
+    const path = placedPaths.get(figure);
+    return path && path.length === selected.length && matchesPathPrefix(path, selected);
+}
+
+function updateCurrentFigure() {
+    currentFigure = selected.map(([r, c]) => grid[r][c]).join("");
+    document.getElementById("currentFigure").textContent = currentFigure || "\u00A0";
+}
+
+function handleClick(r, c, el) {
+    if (roundCompleted) return; //<-- ChatGPT:n lisäämä
+
+    const key = `${r},${c}`; //<-- ChatGPT:n lisäämä
+
+//ChatGPT:n lisäämä -->
+    if (lockedCells.has(key)) return;
+
+    const last = selected[selected.length - 1];
+
+    if (last && sameCoord(last, [r, c])) {
+        selected.pop();
+        el.classList.remove("selected");
+        updateCurrentFigure();
+        playClickSound();
+        return;
+    } //<--
+
+    if (selected.some(([sr, sc]) => sr === r && sc === c)) return;
+
+    if (!isAdjacent(r, c)) return;
+
+    selected.push([r, c]);
+    el.classList.add("selected");
+    updateCurrentFigure();
+    playClickSound();
+
+    //ChatGPT:n lisäämä pätkä -->
+    if (
+        !foundFigures.has(currentFigure) &&
+        isExactSelectedPath(currentFigure)
+    ) {
         foundFigures.add(currentFigure);
         markFound();
         renderHintList();
+        playFoundSound();
 
-        if (foundFigures.size === figures.length && !roundCompleted) {
+        if (foundFigures.size === figures.length) {
             roundCompleted = true;
-            showVictoryScreen();
+            const finalElapsed = Date.now() - roundStartTime;
+            setTimeout(() => showVictoryScreen(finalElapsed), 450);
         }
     }
-}
+} //<--
 
 function markFound() {
     const cells = document.querySelectorAll(".cell");
 
     selected.forEach(([r, c]) => {
+        const key = `${r},${c}`;
+        lockedCells.add(key);
+
         const index = r * cols + c;
-        cells[index].classList.remove("selected");
         cells[index].classList.add("found");
     });
 
@@ -525,11 +559,10 @@ function markFound() {
 function resetSelection() {
     selected = [];
     currentFigure = "";
-    document.getElementById("currentFigure").textContent = "";
-
     document.querySelectorAll(".cell").forEach(c => {
         c.classList.remove("selected");
     });
+    updateCurrentFigure();
 }
 
 //ChatGPT:n lisäämä -->
@@ -556,7 +589,7 @@ function updateTimerDisplay() {
     }
 
     const elapsed = Date.now() - roundStartTime;
-    timerEl.textContent = formatElapsedTime(elapsed)
+    timerEl.textContent = formatElapsedTime(elapsed);
 }
 
 function startTimer() {
@@ -572,7 +605,7 @@ function startTimer() {
     }, 1000);
 }
 
-function stopTimer () {
+function stopTimer() {
     clearInterval(timerInterval);
     timerInterval = null;
 }
@@ -592,27 +625,67 @@ function hideIntroScreen() {
     overlay.classList.add("hidden");
     overlay.setAttribute("aria-hidden", "true");
 
-    showHints();
-
     if (!introClosed) {
         introClosed = true;
         startTimer();
     }
 }
 
-function showVictoryScreen() {
+function playVictorySound() {
+    const audio = document.getElementById("victorySound");
+    if (!audio) return;
+
+    audio.pause();
+    audio.currentTime = 0;
+    audio.volume = 0.8;
+
+    audio.play().catch(err => {
+        console.warn("Voitto musiikkia ei voitu toistaa:", err);
+    });
+}
+
+function playClickSound() {
+    const audio = document.getElementById("clickSound");
+    if (!audio) return;
+
+    audio.currentTime = 0;
+    audio.volume = 0.5;
+
+    audio.play().catch(err => {
+        console.warn("Painamisääntä ei voitu toistaa:", err);
+    });
+}
+
+function playFoundSound() {
+    const audio = document.getElementById("foundSound");
+    if (!audio) return;
+
+    audio.pause();
+    audio.currentTime = 0;
+    audio.volume = 0.8;
+
+    audio.play().catch(err => {
+        console.warn("Löytöääntä ei voitu toistaa:", err);
+    });
+}
+
+function showVictoryScreen(elapsedOverride = null) {
     const overlay = document.getElementById("victoryOverlay");
     const timeEl = document.getElementById("victoryTime");
 
     if (!overlay || !timeEl) return;
 
     stopTimer();
+    resetSelection();
+    gridDiv.classList.add("grid-locked");
 
-    const elapsed = Date.now() - roundStartTime;
+    const elapsed = elapsedOverride ?? (Date.now() - roundStartTime);
     timeEl.textContent = `Aikasi ${formatElapsedTime(elapsed)}`;
 
     overlay.classList.remove("hidden");
     overlay.setAttribute("aria-hidden", "false");
+
+    playVictorySound();
 }
 
 function hideVictoryScreen() {
@@ -630,8 +703,9 @@ function startNewRound(startClock = true) {
     roundStartTime = 0;
 
     stopTimer();
+    gridDiv.classList.remove("grid-locked");
 
-    document.getElementById("currentFigure").textContent = "";
+    document.getElementById("currentFigure").textContent = "\u00a0";
     hideVictoryScreen();
     updateTimerDisplay();
 
@@ -655,16 +729,98 @@ function startNewRound(startClock = true) {
 
 function showHints() {
     const hintSection = document.getElementById("hintSection");
-    if(!hintSection) return;
+    const openBtn = document.getElementById("openHintsBtn");
+    if (!hintSection) return;
 
     hintSection.classList.remove("hidden");
+    hintSection.setAttribute("aria-hidden", "false");
+    openBtn?.setAttribute("aria-expanded", "true");
 }
 
 function hideHints() {
     const hintSection = document.getElementById("hintSection");
-    if(!hintSection) return;
+    const openBtn = document.getElementById("openHintsBtn");
+    if (!hintSection) return;
 
     hintSection.classList.add("hidden");
+    hintSection.setAttribute("aria-hidden", "true");
+    openBtn?.setAttribute("aria-expanded", "false");
+}
+
+function toggleHints() {
+    const hintSection = document.getElementById("hintSection");
+    if (!hintSection) return;
+
+    if (hintSection.classList.contains("hidden")) {
+        showHints();
+    } else {
+        hideHints();
+    }
+}
+
+function initializeHintPanel() {
+    const panel = document.getElementById("hintSection");
+    const header = document.getElementById("hintPanelHeader");
+
+    if (!panel || !header) return;
+
+    let isDragging = false;
+    let startX = 0;
+    let startY = 0;
+    let startLeft = 0;
+    let startTop = 0;
+
+    header.addEventListener("pointerdown", (e) => {
+        if (e.target.closest("button")) return;
+
+        const rect = panel.getBoundingClientRect();
+
+        isDragging = true;
+        startX = e.clientX;
+        startY = e.clientY;
+        startLeft = rect.left;
+        startTop = rect.top;
+
+        panel.style.left = `${rect.left}px`;
+        panel.style.top = `${rect.top}px`;
+        panel.style.right = "auto";
+        panel.style.bottom = "auto";
+
+        header.setPointerCapture?.(e.pointerId);
+    });
+
+    header.addEventListener("pointermove", (e) => {
+        if (!isDragging) return;
+
+        const nextLeft = startLeft + (e.clientX - startX);
+        const nextTop = startTop + (e.clientY - startY);
+
+        const maxLeft = Math.max(12, window.innerWidth - panel.offsetWidth - 12);
+        const maxTop = Math.max(12, window.innerHeight - panel.offsetHeight - 12);
+
+        panel.style.left = `${Math.min(Math.max(12, nextLeft), maxLeft)}px`;
+        panel.style.top = `${Math.min(Math.max(12, nextTop), maxTop)}px`;
+    });
+
+    function stopDragging(e) {
+        if (!isDragging) return;
+        isDragging = false;
+
+        if (e && header.hasPointerCapture?.(e.pointerId)) {
+            header.releasePointerCapture(e.pointerId);
+        }
+    }
+
+    header.addEventListener("pointerup", stopDragging);
+    header.addEventListener("pointercancel", stopDragging);
+}
+
+function leaveGame() {
+    if (window.history.length > 1) {
+        window.history.back();
+    } else {
+        window.location.href = "./index.html";
+    }
 }
 
 startNewRound(false);
@@ -675,3 +831,10 @@ showIntroScreen();
 document.getElementById("closeIntroBtn")?.addEventListener("click", hideIntroScreen);
 document.getElementById("newRoundBtn")?.addEventListener("click", () => startNewRound(true));
 document.getElementById("closeVictoryBtn")?.addEventListener("click", hideVictoryScreen);
+
+document.getElementById("openHintsBtn")?.addEventListener("click", toggleHints);
+document.getElementById("closeHintsBtn")?.addEventListener("click", hideHints);
+
+document.getElementById("leaveGameBtn")?.addEventListener("click", leaveGame);
+
+initializeHintPanel();
