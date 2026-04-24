@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tehdastyöläisen päivä</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../styles/style.css">
+</head>
+
+<body class="d-flex flex-column min-vh-100">
+
+<!-- NAVBAR -->
+<div id="navbar"></div>
+
+<!-- MAIN CONTENT -->
+<main class="flex-grow-1">
+
+  <section class="container hero mt-5">
+
+    <div class="row justify-content-center">
+
+      <div class="col-lg-10 col-xl-8">
+
+        <div class="quiz-wrapper">
+
+          <!-- FAKTA BOXI -->
+          <div id="fact-box" class="hidden">
+            <h3>Tiesitkö?</h3>
+            <p id="fact-text"></p>
+          </div>
+
+          <div class="quiz-container">
+
+            <!-- ALOITUS -->
+            <div id="start-screen">
+              <h2>Tervetuloa!</h2>
+              <h1>Tehdastyöläisen päivä</h1>
+              <p>Testaa tietosi teollisesta vallankumouksesta.</p>
+              <button id="start-btn">Aloita</button>
+            </div>
+
+            <!-- QUIZ -->
+            <div id="quiz" class="hidden">
+              <div id="question"></div>
+
+              <div id="quiz-content">
+                <div id="answers"></div>
+                <img id="question-image" alt="">
+              </div>
+
+              <button id="next-btn" class="hidden">Seuraava</button>
+
+              <div id="result" class="hidden"></div>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+</main>
+
+<!-- FOOTER -->
+<div id="footer"></div>
+
+<!-- JS -->
+<script src="../pages_js/script.js"></script>
+
+</body>
+</html>
