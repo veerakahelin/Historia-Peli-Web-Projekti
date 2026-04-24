@@ -25,7 +25,7 @@ class Trie {
     }
 }
 
-//ChatGPT:n muokkaama -->
+//ChatGPT:n hiukan muokkaama koodia -->
 const figurePool = [
     {
         figure: "MAO",
@@ -105,7 +105,7 @@ const figurePool = [
     },
     {
         figure: "BISMARCK",
-        hint: "Johtaja joka tunnettiin nimellä 'Rautakansleri'"
+        hint: "Johtaja, joka tunnettiin nimellä 'Rautakansleri'"
     },
     {
         figure: "STÅHLBERG",
