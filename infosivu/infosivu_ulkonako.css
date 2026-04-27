@@ -12,3 +12,11 @@ footer {
     text-align: center;
     color: #fff;
 }
+
+.navbar-brand {
+    cursor: default;
+}
+
+.nav-btn {
+    left: 2000px;
+}
