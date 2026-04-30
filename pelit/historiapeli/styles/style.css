@@ -247,3 +247,12 @@ body {
     transform: translateY(-2px);
     transition: 0.2s;
 }
+
+#takaisin {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #554A38;
+  color: white;
+  text-decoration: none;
+  border-radius: 5px;
+}
