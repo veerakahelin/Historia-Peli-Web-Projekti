@@ -1,0 +1,138 @@
+@import url('https://fonts.googleapis.com/css2?family=Staatliches&display=swap');
+
+body {
+    background-color: #DBD1C2;
+    font-family: "Staatliches", sans-serif;
+    color: #554A38;
+}
+
+/* NAVBAR */
+
+.custom-navbar {
+    padding: 20px 0;
+}
+
+.logo {
+    font-weight: bold;
+    color: #554A38;
+}
+
+.menu {
+    gap: 20px;
+}
+
+.menu .nav-item {
+    display: flex;
+    flex: 1;
+}
+
+/* Napit */
+.nav-btn {
+    background-color: #554A38;
+    color: white !important;
+    padding: 10px 15px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    display: block;
+    width: 100%;
+    text-align: center;
+    transition: 0.2s ease;
+}
+
+.nav-btn:hover {
+    background-color: #6b5e49;
+    transform: translateY(-2px);
+}
+
+/* HERO */
+
+.hero h1 {
+    font-size: 32px;
+    font-weight: bold;
+}
+
+.hero p {
+    margin-top: 10px;
+}
+
+.hero .btn {
+    font-size: 1.5rem;
+    color: #554A38;
+    padding: 12px 24px;
+    border-radius: 10px;
+}
+
+/* Kuva */
+.hero-img {
+    width: 80%;
+    border: 10px;
+    height: auto;
+    box-shadow: 0 20px 25px rgba(0,0,0,0.2);
+}
+
+/* FOOTER */
+
+.custom-footer {
+    margin-top: auto;
+    background-color: #A59B85;
+    color: white;
+    padding: 30px 0;
+}
+
+.footer-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* SCREEN LOGIC */
+
+.home-container.active {
+    display: flex;
+}
+
+.screen {
+    display: none;
+    animation: fade 0.3s ease;
+}
+
+.screen.active {
+    display: block;
+}
+
+@keyframes fade {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* PELI */
+
+#game {
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.correct {
+    background-color: #28a745 !important;
+    color: white;
+}
+
+.wrong {
+    background-color: #dc3545 !important;
+    color: white;
+}
+
+#answers {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+#answers button {
+    width: 300px;    
+    height: 60px;      
+    font-size: 1.1rem;
+    text-align: center;
+}
