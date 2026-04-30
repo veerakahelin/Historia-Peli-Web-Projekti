@@ -46,7 +46,9 @@ body {
     background-color: #554A38;
 }
 .btn-secondary:hover {
-    background-color: #332C22;
+    background-color: #6b5e49;
+    transform: translateY(-2);
+    transition: 0.2s;
 }
 
 /* Osaakseen luotu ChatGPT:n avulla --> */
@@ -160,7 +162,9 @@ body {
 }
 
 .top-corner-btn:hover {
-    background-color: #332c22;
+    background-color: #6b5e49;
+    transform: translateY(-2px);
+    transition: 0.2s;
     cursor: pointer;
 }
 
