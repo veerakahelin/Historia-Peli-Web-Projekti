@@ -223,6 +223,8 @@ function showResult() {
     factBox.classList.add("hidden");
     questionImage.classList.add("hidden");
 
+    sessionStorage.setItem("tehdas_score", score + "/" + questions.length);
+
     resultEl.classList.remove("hidden");
     resultEl.innerText = `Pisteesi: ${score} / ${questions.length}`;
 

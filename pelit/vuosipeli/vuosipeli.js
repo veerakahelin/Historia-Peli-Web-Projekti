@@ -120,6 +120,8 @@ nextButton.addEventListener("click", function(e) {
         imageElement.style.display = "none";
         vuosiLabel.style.display = "none";
 
+        sessionStorage.setItem("vuosipeli_score", score + "/" + questions.length);
+
         const tryAgainButton = document.createElement("button");
         tryAgainButton.innerText = "Yritä uudelleen!";
         tryAgainButton.id = "try-again";

@@ -682,6 +682,8 @@ function showVictoryScreen(elapsedOverride = null) {
     const elapsed = elapsedOverride ?? (Date.now() - roundStartTime);
     timeEl.textContent = `Aikasi ${formatElapsedTime(elapsed)}`;
 
+    sessionStorage.setItem("figuurit_score", foundFigures.size + "/" + figures.length);
+
     overlay.classList.remove("hidden");
     overlay.setAttribute("aria-hidden", "false");
 

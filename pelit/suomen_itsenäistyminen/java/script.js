@@ -134,6 +134,8 @@ function updateScore() {
 function endGame() {
     showScreen('end');
 
+    sessionStorage.setItem("itsenäistyminen_score", score + "/" + questions.length);
+
     const finalScore = document.getElementById('finalScore');
     if (finalScore) {
         finalScore.textContent = `Sait ${score}/${questions.length} pistettä!`;
